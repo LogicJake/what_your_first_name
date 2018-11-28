@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # @Author: LogicJake
 # @Date:   2018-11-27 14:51:40
-# @Last Modified time: 2018-11-28 14:40:29
+# @Last Modified time: 2018-11-28 17:20:27
 import random
 from math import sqrt
 import os
 import shutil
-
+import sys
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -14,10 +14,17 @@ num_a = 25
 num_b = int(sqrt(num_a))
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(
+        os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+
 def prepare_data():
     names = []
 
-    with open('name.txt', 'r') as f:
+    with open(resource_path(os.path.join('resources', 'name.txt')), 'r') as f:
 
         lines = f.readlines()
 
@@ -58,9 +65,10 @@ def prepare_data():
 
 
 def save_fig(data1, data2):
-    shutil.rmtree('fig')
+    if os.path.exists(resource_path('fig')):
+        shutil.rmtree(resource_path('fig'))
 
-    os.makedirs('fig', exist_ok=True)
+    os.makedirs(resource_path('fig'), exist_ok=True)
 
     image_width = 280
     image_height = 160
@@ -75,7 +83,8 @@ def save_fig(data1, data2):
         text += '\n'
         im = Image.new("RGB", (image_width, image_height), (255, 255, 255))
         dr = ImageDraw.Draw(im)
-        font = ImageFont.truetype(os.path.join('ttf', 'simsun.ttf'), 20)
+        font = ImageFont.truetype(resource_path(
+            os.path.join('resources', 'simsun.ttf')), 20)
         dr.text((0, 0), text, font=font, fill="#000000")
         images.append(im)
 
@@ -102,7 +111,8 @@ def save_fig(data1, data2):
         left += image_height
         right += image_height
         quality_value = 100
-        target.save(os.path.join('fig', 'names.jpg'), quality=quality_value)
+        target.save(resource_path(os.path.join(
+            'fig', 'names.jpg')), quality=quality_value)
 
     for index, data in enumerate(data2):
         text = ''
@@ -114,9 +124,10 @@ def save_fig(data1, data2):
 
         im = Image.new("RGB", (image_width, image_height), (255, 255, 255))
         dr = ImageDraw.Draw(im)
-        font = ImageFont.truetype(os.path.join('ttf', 'simsun.ttf'), 25)
+        font = ImageFont.truetype(resource_path(
+            os.path.join('resources', 'simsun.ttf')), 25)
         dr.text((0, 0), text, font=font, fill="#000000")
-        im.save(os.path.join('fig', 'card_{}.jpg'.format(index)),
+        im.save(resource_path(os.path.join('fig', 'card_{}.jpg'.format(index))),
                 quality=quality_value)
 
 

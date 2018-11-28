@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author: LogicJake
 # @Date:   2018-11-27 16:21:39
-# @Last Modified time: 2018-11-28 16:20:29
+# @Last Modified time: 2018-11-28 17:23:13
 # 调用pygame模块
 import pygame
 import sys
 from pygame.locals import *
-from math import sqrt, ceil
 from prepare_data import *
 import time
 WINDOWWIDTH = 1080
@@ -26,7 +25,8 @@ def exit_windows():
 
 
 def show_en_text(content, x, y, size):
-    font = pygame.font.Font(os.path.join('ttf', 'papyrus.ttf'), size)
+    font = pygame.font.Font(resource_path(
+        os.path.join('resources', 'papyrus.ttf')), size)
     font.set_bold(True)
     pressKeySurf = font.render(content, True, DARKGRAY)
     pressKeyRect = pressKeySurf.get_rect()
@@ -35,7 +35,8 @@ def show_en_text(content, x, y, size):
 
 
 def show_text(content, x, y, size, bold=False):
-    font = pygame.font.Font(os.path.join('ttf', 'simsun.ttf'), size)
+    font = pygame.font.Font(resource_path(
+        os.path.join('resources', 'simsun.ttf')), size)
     font.set_bold(bold)
     surf = font.render(content, True, BLACK)
     rect = surf.get_rect()
@@ -79,8 +80,8 @@ def choose_card():
         show_text(content, WINDOWWIDTH / 2,
                   WINDOWHEIGHT - WINDOWHEIGHT / 6, 25)
 
-        card = pygame.image.load(os.path.join(
-            'fig', 'card_{}.jpg'.format(INDEX)))
+        card = pygame.image.load(resource_path(os.path.join(
+            'fig', 'card_{}.jpg'.format(INDEX))))
         size = card.get_rect().size
         card = card.convert()
         SURFACE.blit(card, (WINDOWWIDTH / 2 -
@@ -102,8 +103,8 @@ def choose_card():
 def display_all_names():
     global SURFACE, CHOICE, DATA
 
-    pic = pygame.image.load(os.path.join(
-        'fig', 'names.jpg'))
+    pic = pygame.image.load(resource_path(os.path.join(
+        'fig', 'names.jpg')))
     size = pic.get_rect().size
     pic = pic.convert()
 
@@ -170,9 +171,10 @@ def show_res():
 
 def main():
     global SURFACE, CARDS, DATA
-    CARDS = os.listdir('fig')
-    CARDS.remove('names.jpg')
     DATA = prepare()
+
+    CARDS = os.listdir(resource_path('fig'))
+    CARDS.remove('names.jpg')
     while True:
         WINDOWWIDTH = 1080
         WINDOWHEIGHT = 640
