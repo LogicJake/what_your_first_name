@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: LogicJake
 # @Date:   2018-11-27 16:21:39
-# @Last Modified time: 2018-11-28 14:59:02
+# @Last Modified time: 2018-11-28 16:20:29
 # 调用pygame模块
 import pygame
 import sys
@@ -47,7 +47,7 @@ def show_start_screen():
     SURFACE.fill(WHITE)
 
     content = '根据最新人工智能技术，通过您与程序的交互分析出您的姓，请在测试时在心里默念您的姓!'
-    show_text(content, WINDOWWIDTH / 2, WINDOWHEIGHT / 2, 20, True)
+    show_text(content, WINDOWWIDTH / 2, WINDOWHEIGHT / 2, 20)
     show_en_text('Press space key to play.',
                  WINDOWWIDTH - 200, WINDOWHEIGHT - 50, 25)
     pygame.display.update()
@@ -172,7 +172,7 @@ def main():
     global SURFACE, CARDS, DATA
     CARDS = os.listdir('fig')
     CARDS.remove('names.jpg')
-
+    DATA = prepare()
     while True:
         WINDOWWIDTH = 1080
         WINDOWHEIGHT = 640
@@ -181,7 +181,6 @@ def main():
         SURFACE.fill(WHITE)
         pygame.display.set_caption('人工智能测出你的姓')
 
-        DATA = prepare()
         show_start_screen()
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
